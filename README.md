@@ -4,6 +4,16 @@ by [Han](http://github.com/laughinghan), [Jeanine](http://github.com/jneen), and
 
 MathQuill is a web formula editor designed to make typing math easy and beautiful.
 
+This fork of MathQuill is specifically configured for the needs of the calculator project:
+
+https://github.com/tmilev/calculator
+
+In particular, we have merged the matrix support by Learnosity (https://github.com/Learnosity/mathquill), and have deleted all development branches not relevant to the calculator project. 
+
+We do not promise to support all features supported by https://github.com/mathquill/mathquill. Please refer to https://github.com/mathquill/mathquill for up-to-date information on the mathquill project. If you are interested in this fork, please post your issues at the calculator project page 
+https://github.com/tmilev/calculator.
+
+
 [<img alt="homepage demo" src="https://cloud.githubusercontent.com/assets/225809/15163580/1bc048c4-16be-11e6-98a6-de467d00cff1.gif" width="260">](http://mathquill.com)
 
 The MathQuill project is supported by its [partners](http://mathquill.com/partners.html). We hold ourselves to a compassionate [Code of Conduct](http://docs.mathquill.com/en/latest/Code_of_Conduct/).
