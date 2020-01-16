@@ -1,4 +1,5 @@
 /**
+ * @license
  * MathQuill v0.10.1, by Han, Jeanine, and Mary
  * http://mathquill.com | maintainers@mathquill.com
  *
