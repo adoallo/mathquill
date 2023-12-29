@@ -412,6 +412,21 @@ LatexCmds.integral = P(SummationNotation, function(_, super_) {
     var htmlTemplate =
       '<span class="mq-int mq-non-leaf">'
     +   '<big>&int;</big>'
+    + '</span>'
+    ;
+    Symbol.prototype.init.call(this, '\\int ', htmlTemplate);
+  };
+  // FIXME: refactor rather than overriding
+  _.createLeftOf = MathCommand.p.createLeftOf;
+});
+
+/*
+LatexCmds['int'] =
+LatexCmds.integral = P(SummationNotation, function(_, super_) {
+  _.init = function() {
+    var htmlTemplate =
+      '<span class="mq-int mq-non-leaf">'
+    +   '<big>&int;</big>'
     +   '<span class="mq-supsub mq-non-leaf">'
     +     '<span class="mq-sup"><span class="mq-sup-inner">&1</span></span>'
     +     '<span class="mq-sub">&0</span>'
@@ -424,6 +439,7 @@ LatexCmds.integral = P(SummationNotation, function(_, super_) {
   // FIXME: refactor rather than overriding
   _.createLeftOf = MathCommand.p.createLeftOf;
 });
+*/
 
 var Fraction =
 LatexCmds.frac =

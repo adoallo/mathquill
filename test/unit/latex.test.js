@@ -15,6 +15,11 @@ suite('latex', function() {
     assertParsesLatex('   {}{} {{{}}  }', '');
   });
 
+  test('Integral', function () {
+    assertParsesLatex('\\int');
+    assertParsesLatex('\\int_{}^{}');
+  });
+
   test('variables', function() {
     assertParsesLatex('xyz');
   });
