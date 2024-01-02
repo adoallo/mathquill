@@ -493,32 +493,58 @@ CharCmds['/'] = P(Fraction, function(_, super_) {
 });
 
 var SquareRoot =
-LatexCmds.sqrt =
-LatexCmds['√'] = P(MathCommand, function(_, super_) {
-  _.ctrlSeq = '\\sqrt';
-  _.htmlTemplate =
-      '<span class="mq-non-leaf">'
-    +   '<span class="mq-scaled mq-sqrt-prefix">&radic;</span>'
-    +   '<span class="mq-non-leaf mq-sqrt-stem">&0</span>'
-    + '</span>'
-  ;
-  _.textTemplate = ['sqrt(', ')'];
-  _.parser = function() {
-    return latexMathParser.optBlock.then(function(optBlock) {
-      return latexMathParser.block.map(function(block) {
-        var nthroot = NthRoot();
-        nthroot.blocks = [ optBlock, block ];
-        optBlock.adopt(nthroot, 0, 0);
-        block.adopt(nthroot, optBlock, 0);
-        return nthroot;
-      });
-    }).or(super_.parser.call(this));
-  };
-  _.reflow = function() {
-    var block = this.ends[R].jQ;
-    scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
-  };
-});
+  LatexCmds.sqrt =
+  LatexCmds['√'] = P(MathCommand, function(_, super_) {
+    _.ctrlSeq = '\\sqrt';
+    _.htmlTemplate =
+        '<span class="mq-non-leaf">'
+      +   '<span class="mq-scaled mq-sqrt-prefix">&radic;</span>'
+      +   '<span class="mq-non-leaf mq-sqrt-stem">&0</span>'
+      + '</span>'
+    ;
+    _.textTemplate = ['sqrt(', ')'];
+    _.parser = function() {
+      return latexMathParser.optBlock.then(function(optBlock) {
+        return latexMathParser.block.map(function(block) {
+          var nthroot = NthRoot();
+          nthroot.blocks = [ optBlock, block ];
+          optBlock.adopt(nthroot, 0, 0);
+          block.adopt(nthroot, optBlock, 0);
+          return nthroot;
+        });
+      }).or(super_.parser.call(this));
+    };
+    _.createLeftOf = function(cursor) {
+      if (!this.replacedFragment) {
+        var leftward = cursor[L];
+        while (leftward &&
+          !(
+            leftward instanceof BinaryOperator ||
+            leftward instanceof (LatexCmds.text || noop) ||
+            leftward instanceof SummationNotation ||
+            leftward.ctrlSeq === '\\ ' ||
+            /^[,;:]$/.test(leftward.ctrlSeq)
+          )
+        ) leftward = leftward[L];
+
+        if (leftward instanceof SummationNotation && leftward[R] instanceof SupSub) {
+          leftward = leftward[R];
+          if (leftward[R] instanceof SupSub && leftward[R].ctrlSeq != leftward.ctrlSeq)
+            leftward = leftward[R];
+        }
+
+        if (leftward !== cursor[L]) {
+          this.replaces(Fragment(leftward[R] || cursor.parent.ends[L], cursor[L]));
+          cursor[L] = leftward;
+        }
+      }
+      super_.createLeftOf.call(this, cursor);
+    };
+    _.reflow = function() {
+      var block = this.ends[R].jQ;
+      scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
+    };
+  });
 
 var Hat = LatexCmds.hat = P(MathCommand, function(_, super_) {
   _.ctrlSeq = '\\hat';
