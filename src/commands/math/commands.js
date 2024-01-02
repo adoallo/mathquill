@@ -407,7 +407,7 @@ LatexCmds.coproduct = bind(SummationNotation,'\\coprod ','&#8720;');
 
 LatexCmds['∫'] =
 LatexCmds['int'] =
-LatexCmds.integral = P(SummationNotation, function(_, super_) {
+LatexCmds.integral = P(MathCommand, function(_, super_) {
   _.init = function() {
     var htmlTemplate =
       '<span class="mq-int mq-non-leaf">'
